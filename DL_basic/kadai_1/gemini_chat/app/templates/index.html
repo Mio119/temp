@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食べログ スクレイピング結果</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        h1 { color: #333; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 1em; }
+        .reload-btn {
+            padding: 0.8em 1.5em;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .restaurant-card {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 1.5em;
+            padding: 1em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .restaurant-card img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 1.5em;
+        }
+        .info { flex: 1; }
+        .info h2 { margin-top: 0; }
+        .info p { margin: 0.5em 0; }
+        .rating { font-weight: bold; color: #ff9800; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>食べログ レストラン情報 🍽️</h1>
+        <a href="/" class="reload-btn">更新する</a>
+    </div>
+
+    {% if restaurants %}
+        {% for r in restaurants %}
+        <div class="restaurant-card">
+            <img src="{{ r.image_url }}" alt="{{ r.name }}の料理写真">
+            <div class="info">
+                <h2>{{ r.name }}</h2>
+                <p><strong>評価:</strong> <span class="rating">★{{ r.rating }}</span></p>
+                <p><strong>口コミ:</strong> {{ r.reviews }}件</p>
+                <p><strong>価格帯:</strong> {{ r.price }}</p>
+                <p><strong>住所:</strong> {{ r.address }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>情報を取得できませんでした。時間をおいて再度お試しください。</p>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大阪のランダムな飲食店</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        h1 { color: #333; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 1em; }
+        .reload-btn {
+            padding: 0.8em 1.5em;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #e60012; /* 大阪らしい赤色に変更 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .restaurant-card {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 2em; /* ヘッダーとのマージンを追加 */
+            padding: 1.5em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .restaurant-card img {
+            width: 200px;  /* 少し大きく */
+            height: 200px; /* 少し大きく */
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 1.5em;
+        }
+        .info { flex: 1; }
+        .info h2 { margin-top: 0; font-size: 1.8em; } /* 店名を大きく */
+        .info p { margin: 0.5em 0; font-size: 1.1em; }
+        .rating { font-weight: bold; color: #ff9800; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>今日のランチはここにしいひん？ 🐙</h1>
+        <a href="/" class="reload-btn">別のお店を探す</a>
+    </div>
+
+    {% if restaurant %}
+        <div class="restaurant-card">
+            <img src="{{ restaurant.image_url }}" alt="{{ restaurant.name }}の料理写真">
+            <div class="info">
+                <h2>{{ restaurant.name }}</h2>
+                <p><strong>評価:</strong> <span class="rating">★{{ restaurant.rating }}</span></p>
+                <p><strong>口コミ:</strong> {{ restaurant.reviews }}件</p>
+                <p><strong>価格帯:</strong> {{ restaurant.price }}</p>
+                <p><strong>住所:</strong> {{ restaurant.address }}</p>
+            </div>
+        </div>
+    {% else %}
+        <p>情報を取得できませんでした。時間をおいて再度お試しください。</p>
+    {% endif %}
+
+</body>
+</html>

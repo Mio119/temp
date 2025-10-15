@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食べログ スクレイピング結果</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #e60012; /* 食べログの赤色をイメージ */
+        }
+        .reload-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .reload-btn:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover; /* 画像のアスペクト比を保ちつつ要素にフィットさせる */
+        }
+        .card-content {
+            padding: 15px;
+            flex-grow: 1; /* 内容が少なくても高さを揃えるため */
+        }
+        .card-content h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .card-content p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .rating {
+            font-weight: bold;
+            color: #ff8c00;
+        }
+        .no-data {
+            text-align: center;
+            width: 100%;
+            grid-column: 1 / -1;
+            padding: 50px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>食べログ 新宿エリアのレストラン情報</h1>
+        <p>このページの情報は、Webスクレイピングによって自動的に取得されたものです。</p>
+        <!-- このボタンをクリックするとページがリロードされます -->
+        <button class="reload-btn" onclick="location.reload()">最新情報に更新</button>
+    </div>
+    
+    <div class="container">
+        <!-- Flaskから渡されたrestaurantsリストをループ処理 -->
+        {% for r in restaurants %}
+        <div class="card">
+            <img src="{{ r.image }}" alt="{{ r.name }} の写真" onerror="this.onerror=null;this.src='https://placehold.co/300x200/eee/ccc?text=Image+Error';">
+            <div class="card-content">
+                <h2>{{ r.name }}</h2>
+                <p><span class="rating">★ {{ r.rating }}</span> ({{ r.reviews }}件)</p>
+                <p><strong>価格帯:</strong> [夜] {{ r.price_dinner }} / [昼] {{ r.price_lunch }}</p>
+                <p><strong>住所:</strong> {{ r.address }}</p>
+            </div>
+        </div>
+        <!-- ループが空だった場合（データが取得できなかった場合） -->
+        {% else %}
+            <div class="no-data">
+                <p>レストラン情報が取得できませんでした。時間をおいて再度お試しください。</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

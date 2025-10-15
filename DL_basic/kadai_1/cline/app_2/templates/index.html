@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食べログ スクレイピング結果</title>
+</head>
+<body>
+    <h1>食べログ スクレイピング結果</h1>
+    <button onclick="location.reload()">リロード</button>
+    
+    <div id="restaurant-list">
+        {% for restaurant in restaurants %}
+        <div class="restaurant-item" style="border: 1px solid #ccc; margin-bottom: 20px; padding: 10px;">
+            <h2>{{ restaurant.name }}</h2>
+            <p><strong>住所:</strong> {{ restaurant.address }}</p>
+            <p><strong>評価:</strong> {{ restaurant.rating }}</p>
+            <p><strong>価格帯:</strong> {{ restaurant.price }}</p>
+            <p><strong>口コミ件数:</strong> {{ restaurant.reviews }}</p>
+            <img src="{{ restaurant.photo }}" alt="{{ restaurant.name }} の写真" style="max-width: 200px;">
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
