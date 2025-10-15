@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食べログ スクレイピング結果</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #d32323; /* 食べログのテーマカラー */
+        }
+        .reload-button {
+            display: block;
+            width: 120px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #d32323;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .reload-button:hover {
+            background-color: #b01d1d;
+        }
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .restaurant-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+            transition: box-shadow 0.3s;
+        }
+        .restaurant-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .restaurant-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .restaurant-info {
+            padding: 15px;
+        }
+        .restaurant-info h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .restaurant-info p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .rating {
+            font-weight: bold;
+            color: #ffbf00;
+        }
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>食べログ レストラン情報</h1>
+        <button class="reload-button" onclick="location.reload()">リロード</button>
+
+        {% if restaurants %}
+            <div class="restaurant-grid">
+                {% for r in restaurants %}
+                <div class="restaurant-card">
+                    <img src="{{ r.photo_url }}" alt="{{ r.name }} の写真">
+                    <div class="restaurant-info">
+                        <h2>{{ r.name }}</h2>
+                        <p><strong>住所:</strong> {{ r.address }}</p>
+                        <p><strong>評価:</strong> <span class="rating">{{ r.rating }}</span></p>
+                        <p><strong>価格帯:</strong> {{ r.price }}</p>
+                        <p><strong>口コミ件数:</strong> {{ r.reviews }}件</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-data">
+                <p>レストラン情報を取得できませんでした。</p>
+                <p>Webサイトの構造が変更されたか、アクセスに問題が発生した可能性があります。</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
