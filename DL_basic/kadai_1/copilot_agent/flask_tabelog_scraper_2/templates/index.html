@@ -93,20 +93,18 @@
         <h1>食べログ レストラン情報</h1>
         <button class="reload-button" onclick="location.reload()">リロード</button>
 
-        {% if restaurants %}
+        {% if restaurant %}
             <div class="restaurant-grid">
-                {% for r in restaurants %}
                 <div class="restaurant-card">
-                    <img src="{{ r.photo_url }}" alt="{{ r.name }} の写真">
+                    <img src="{{ restaurant.photo_url }}" alt="{{ restaurant.name }} の写真">
                     <div class="restaurant-info">
-                        <h2>{{ r.name }}</h2>
-                        <p><strong>住所:</strong> {{ r.address }}</p>
-                        <p><strong>評価:</strong> <span class="rating">{{ r.rating }}</span></p>
-                        <p><strong>価格帯:</strong> {{ r.price }}</p>
-                        <p><strong>口コミ件数:</strong> {{ r.reviews }}件</p>
+                        <h2>{{ restaurant.name }}</h2>
+                        <p><strong>住所:</strong> {{ restaurant.address }}</p>
+                        <p><strong>評価:</strong> <span class="rating">{{ restaurant.rating }}</span></p>
+                        <p><strong>価格帯:</strong> {{ restaurant.price }}</p>
+                        <p><strong>口コミ件数:</strong> {{ restaurant.reviews }}件</p>
                     </div>
                 </div>
-                {% endfor %}
             </div>
         {% else %}
             <div class="no-data">

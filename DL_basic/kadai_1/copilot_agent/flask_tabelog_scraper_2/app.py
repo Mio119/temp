@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template
 import logging
+import random
 
 # ログ設定
 logging.basicConfig(level=logging.INFO)
@@ -12,10 +13,10 @@ def scrape_tabelog():
     """
     食べログのレストラン情報をスクレイピングする関数
     """
-    # 食べログのURL（例：東京のレストランランキング）
+    # 食べログのURL（例：大阪のレストランランキング）
     # 注: 食べログの利用規約を遵守してください。
     # スクレイピングを頻繁に行うとアクセスがブロックされる可能性があります。
-    url = "https://tabelog.com/tokyo/rstLst/ranking/"
+    url = "https://tabelog.com/osaka/rstLst/ranking/"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
@@ -67,10 +68,11 @@ def scrape_tabelog():
 @app.route('/')
 def index():
     """
-    トップページ。スクレイピング結果を表示する。
+    トップページ。スクレイピング結果をランダムに1件表示する。
     """
     restaurants = scrape_tabelog()
-    return render_template('index.html', restaurants=restaurants)
+    restaurant = random.choice(restaurants) if restaurants else None
+    return render_template('index.html', restaurant=restaurant)
 
 if __name__ == '__main__':
     # 外部からアクセス可能にする場合は host='0.0.0.0' を指定
